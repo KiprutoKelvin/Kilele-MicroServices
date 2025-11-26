@@ -3,6 +3,7 @@ package io.kipruto.movie_catalog_service.resources;
 import io.kipruto.movie_catalog_service.models.CatalogItem;
 import io.kipruto.movie_catalog_service.models.Movie;
 import io.kipruto.movie_catalog_service.models.Rating;
+import io.kipruto.movie_catalog_service.models.UserRating;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,11 +30,9 @@ public class MovieCatalogResource {
         // Assume
         // get all rated movie IDs
         // for each movie ID call movie_info_service
-        List<Rating> ratings = Arrays.asList(
-                new Rating("235456", 4),
-                new Rating("780989", 5)
-        );
-        return ratings.stream().map(rating -> {
+        UserRating ratings = restTemplate.getForObject("http://localhost:8083/ratingsdata/users/" + userId, UserRating.class);
+
+        return ratings.getUserRating().stream().map(rating -> {
             Movie movie = restTemplate.getForObject("http://localhost:8082/movies/" + rating.getMovieId(), Movie.class);
             return new CatalogItem(movie.getName(), "Old times", rating.getRating());
                 })
