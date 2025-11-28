@@ -1,5 +1,6 @@
 package io.kipruto.movie_catalog_service.resources;
 
+import com.netflix.discovery.DiscoveryClient;
 import io.kipruto.movie_catalog_service.models.CatalogItem;
 import io.kipruto.movie_catalog_service.models.Movie;
 import io.kipruto.movie_catalog_service.models.Rating;
@@ -22,6 +23,9 @@ public class MovieCatalogResource {
     @Autowired
     private RestTemplate restTemplate;
 
+//    @Autowired
+//    private DiscoveryClient discoveryClient;
+
     @RequestMapping("/{userId}")
     public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
 
@@ -30,10 +34,10 @@ public class MovieCatalogResource {
         // Assume
         // get all rated movie IDs
         // for each movie ID call movie_info_service
-        UserRating ratings = restTemplate.getForObject("http://localhost:8083/ratingsdata/users/" + userId, UserRating.class);
+        UserRating ratings = restTemplate.getForObject("http://ratings-data-service/ratingsdata/users/" + userId, UserRating.class);
 
         return ratings.getUserRating().stream().map(rating -> {
-            Movie movie = restTemplate.getForObject("http://localhost:8082/movies/" + rating.getMovieId(), Movie.class);
+            Movie movie = restTemplate.getForObject("http://movie-info-service/movies/" + rating.getMovieId(), Movie.class);
             return new CatalogItem(movie.getName(), "Old times", rating.getRating());
                 })
             .collect(Collectors.toList());
