@@ -400,6 +400,6 @@ This project currently MIT license.
 ---
 
 **Related Projects:**
-- [ratings-data-service](link-here) - Provides user ratings data
-- [movie-info-service](link-here) - Provides movie metadata
-- [eureka-server](link-here) - Service discovery server
+- [ratings-data-service](https://github.com/KiprutoKelvin/Kilele-MicroServices/tree/main/ratings-data-service) - Provides user ratings data
+- [movie-info-service](https://github.com/KiprutoKelvin/Kilele-MicroServices/tree/main/movie-info-service) - Provides movie metadata
+- [discovery-server](https://github.com/KiprutoKelvin/Kilele-MicroServices/tree/main/discovery-server) - Service discovery server
